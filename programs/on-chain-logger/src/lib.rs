@@ -11,6 +11,7 @@ pub mod on_chain_logger {
         event_storage.block_number = block_number;
         event_storage.events = Vec::new();
         event_storage.bump = ctx.bumps.event_storage;
+        event_storage.signers = Vec::new();
         msg!("Initialized EventStorage for block: {}", block_number);
         Ok(())
     }
@@ -22,6 +23,7 @@ pub mod on_chain_logger {
             LoggerErrors::InvalidBlockNumber
         );
         event_storage.events.push(event_data);
+        event_storage.signers.push(ctx.accounts.signer.key());
         msg!("Logged new event for block: {}", block_number);
         Ok(())
     }
@@ -44,7 +46,7 @@ pub struct Initialize<'info> {
 }
 
 #[derive(Accounts)]
-#[instruction(block_number: u64)]
+#[instruction(event_data: Vec<u8>, block_number: u64)]
 pub struct LogEvent<'info> {
     #[account(
         mut,
@@ -61,9 +63,11 @@ pub struct LogEvent<'info> {
 #[derive(InitSpace)]
 pub struct EventStorage {
     pub block_number: u64,
-    #[max_len(100, 100)]
+    #[max_len(50, 50)]
     pub events: Vec<Vec<u8>>,
     pub bump: u8,
+    #[max_len(50)]
+    pub signers: Vec<Pubkey>,
     // TODOD: static bytes read up laters
 }
 
