@@ -1,0 +1,2 @@
+- The `.to_le_bytes()` method in Rust is used to convert an integer primitive type (like u32, i64, etc.) into its byte representation in `little-endian order`
+- Little-endian order is a byte-ordering scheme where the least significant byte (LSB) of a multi-byte data value is stored at the lowest memory address, while the most significant byte is stored at the highest address. This is often described as storing data in a "backwards" or "little-end-first" manner compared to how numbers are typically written. 
